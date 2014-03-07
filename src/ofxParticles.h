@@ -158,7 +158,14 @@ public:
             ofSetColor(c);
             ofLine(position, position-velocity*dt);
         }
-        
+    
+    void drawPoint(){
+        ofColor c = color;
+        c.a = life/lifeStart*color.a;
+        ofSetColor(c);
+        ofCircle(position, size);
+    }
+    
         void draw(ofTexture &tex){
             float w = tex.getWidth();
             float h = tex.getHeight();
@@ -323,6 +330,13 @@ public:
                     (**it).draw();
                 }
             }
+            
+            void drawPoints(){
+                for(list<ofxParticle*>::iterator it = particles.begin(); it != particles.end(); it++){
+                    (**it).drawPoint();
+                }
+            }
+            
             void draw(ofTexture &tex){
                 //                particles.sort();
                 for(list<ofxParticle*>::iterator it = particles.begin(); it != particles.end(); it++){
