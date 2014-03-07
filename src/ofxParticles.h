@@ -161,7 +161,11 @@ public:
     
     void drawPoint(){
         ofColor c = color;
-        c.a = life/lifeStart*color.a;
+        if (lifeStart ==0){
+            
+        } else{
+            c.a = life/lifeStart*color.a;
+        }
         ofSetColor(c);
         ofCircle(position, size);
     }
@@ -187,8 +191,12 @@ public:
             ofPopMatrix();
         }
         
-        bool isAlive() {return life > 0.0;}
-        
+        bool isAlive() {
+            if(lifeStart!=0){
+                return life > 0.0;
+            } else return true;
+        }
+    
         };
         
         class ofxParticleEmitter {
