@@ -166,9 +166,10 @@ public:
         } else{
             c.a = life/lifeStart*color.a;
         }
-        ofSetColor(c);
+        ofSetColor(color);
         ofCircle(position, size);
     }
+    
     
         void draw(ofTexture &tex){
             float w = tex.getWidth();
@@ -341,6 +342,29 @@ public:
             
             void drawPoints(){
                 for(list<ofxParticle*>::iterator it = particles.begin(); it != particles.end(); it++){
+                    (**it).drawPoint();
+                }
+            }
+            
+            void drawPointsWithAttractorColors(vector<ofVec3f> attractors, vector<ofColor> colors){
+                for(list<ofxParticle*>::iterator it = particles.begin(); it != particles.end(); it++){
+                    ofColor color = (**it).color;
+                    ofVec3f loc = (**it).position;
+                    float range = 200;
+                    for (int i = 0; i<attractors.size(); i++) {
+                        float dist = loc.distance(attractors[i]);
+                        if (dist<range){
+                            float scaleDist = ofMap( dist ,0,range,0,1) ;
+                            //cout<<"dist:"<<dist<<" scaleDist:"<<scaleDist<<endl;
+                            //scaleDist = ofClamp(scaleDist,0,1);
+                            scaleDist = 1-scaleDist;
+                            color.lerp(colors[i], scaleDist);
+                            
+                            //cout<<scaleDist<<endl;
+                        }
+                    }
+                    
+                    (**it).color = color;
                     (**it).drawPoint();
                 }
             }
